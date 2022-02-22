@@ -6,7 +6,7 @@ import '../deps.dart';
 
 /// Adapter for Firebase.
 ///
-/// WARNING: This
+/// Uses the firestore instance for given [firebaseApp]
 class FirebaseDatabaseAdapter extends DatabaseAdapter with QueryExecutor {
   @override
   final String name;
@@ -15,7 +15,9 @@ class FirebaseDatabaseAdapter extends DatabaseAdapter with QueryExecutor {
   final firebase.FirebaseApp? firebaseApp;
   late final firestore.FirebaseFirestore _db;
 
-  /// TODO
+  /// Adapter for Firebase.
+  ///
+  /// Uses the firestore instance for given [firebaseApp]
   FirebaseDatabaseAdapter({
     this.name = 'firebase',
     this.firebaseApp,
