@@ -1,0 +1,16 @@
+**/doc/api/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.metadata
+.pub/
+build/
+coverage/
+coverage.lcov
+**/*.mocks.dart
+**/*.mock.dart
+**/__mock__/
+**/__mocks__/
+pubspec.lock

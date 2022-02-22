@@ -1,0 +1,16 @@
+include: package:effective_dart/analysis_options.yaml
+linter:
+  rules:
+    - prefer_expression_function_bodies
+    - prefer_typing_uninitialized_variables
+    - use_function_type_syntax_for_parameters
+    - annotate_overrides
+    - sort_unnamed_constructors_first
+analyzer:
+  exclude:
+    - lib/**/*.g.dart
+    - lib/gen/**
+    - src/gen/**
+    - gen/**
+    - "**/*.gen.dart"
+    - "**/*.generated.dart"
