@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main, beta, dev]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '2.8.0'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Install global dependencies
+        run: flutter pub global activate coverage
+
+      - name: Check Code Formating
+        run: flutter format . -o none --set-exit-if-changed
+
+      - name: Check Code Quality
+        run: flutter analyze --fatal-infos
+
+      - name: Running Tests
+        run: flutter test --coverage=coverage || exit 0

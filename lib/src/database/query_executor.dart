@@ -4,9 +4,9 @@ import 'package:uuid/uuid.dart';
 
 import '../deps.dart';
 
-/// Mixin that contains the logic on how to execute the query on a hive box
+/// Mixin that contains the logic on how to execute the query in firestore
 mixin QueryExecutor implements DatabaseAdapter {
-  /// Tries to store queries payload in hive box
+  /// Tries to store queries payload in firestore
   Future<QueryResult> create(
       Query query, firestore.FirebaseFirestore db) async {
     final id = query.payload['id'] ?? Uuid().v1();
@@ -28,7 +28,7 @@ mixin QueryExecutor implements DatabaseAdapter {
     }
   }
 
-  /// Tries to store queries payload in hive box
+  /// Tries to store queries payload in firestore
   Future<QueryResult> update(
       Query query, firestore.FirebaseFirestore db) async {
     final id = query.payload['id'] ?? Uuid().v1();
@@ -44,7 +44,7 @@ mixin QueryExecutor implements DatabaseAdapter {
     }
   }
 
-  /// Tries to delete payload from hive box
+  /// Tries to delete payload from firestore
   Future<QueryResult> delete(
       Query query, firestore.FirebaseFirestore db) async {
     final id = query.payload['id'];
@@ -64,7 +64,7 @@ mixin QueryExecutor implements DatabaseAdapter {
     }
   }
 
-  /// Tries to fetch payload from hive box
+  /// Tries to fetch payload from firestore
   Future<QueryResult> read(Query query, firestore.FirebaseFirestore db) async {
     if (query.limit == 1 && null != query.payload['id']) {
       final id = query.payload['id'] ?? Uuid().v1();

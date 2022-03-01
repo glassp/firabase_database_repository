@@ -21,7 +21,7 @@ void main() async {
     // Register a Database Adapter that you want to use.
     DatabaseAdapterRegistry.register(myDatabaseAdapter);
 
-    final repository = DatabaseRepository.fromRegistry(serializer: mySerializer, name: 'hive');
+    final repository = DatabaseRepository.fromRegistry(serializer: mySerializer, name: 'firebase');
     
     // Now use some methods such as create() etc.
 }
