@@ -1,5 +1,7 @@
 # CHANGELOG
-
+# 1.0.5
+    - **BUG**
+        - remove json typedef as its exported from database_repository now
 ## 1.0.4
     - **INTERNAL**
         - use database_repository 2.0.0

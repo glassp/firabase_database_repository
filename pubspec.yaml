@@ -1,6 +1,6 @@
 name: firebase_database_repository
 description: A DatabaseAdapter for the firebase database as used by the database_repository package
-version: 1.0.4
+version: 1.0.5
 repository: https://github.com/glassp/firebase_database_repository
 
 environment:
