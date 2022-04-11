@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.0.4
+    - **INTERNAL**
+        - use database_repository 2.0.0
 ## 1.0.3
     - **DOCS**
         - Improve README.md
