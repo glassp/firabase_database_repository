@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:database_repository/database_repository.dart';
 import 'package:uuid/uuid.dart';
 
-import '../deps.dart';
-
 /// Mixin that contains the logic on how to execute the query in firestore
 mixin QueryExecutor implements DatabaseAdapter {
   /// Tries to store queries payload in firestore
@@ -91,6 +89,26 @@ mixin QueryExecutor implements DatabaseAdapter {
 
       if (result.docs.isNotEmpty) {
         for (final snapshot in result.docs) {
+          final inListConstraints = query.where
+              .whereType<InList>()
+              .where((c) => c.value.isNotEmpty && c.value.length >= 10);
+
+          final notInListConstraints = query.where
+              .whereType<NotInList>()
+              .where((c) => c.value.isNotEmpty && c.value.length >= 10);
+
+          /// Check if InListConstraint needs to be applied here.
+          if (inListConstraints.isNotEmpty || notInListConstraints.isNotEmpty) {
+            for (final constraint in [
+              ...inListConstraints,
+              ...notInListConstraints
+            ]) {
+              if (!constraint.evaluate(snapshot.data() as JSON)) {
+                continue;
+              }
+            }
+          }
+
           json.putIfAbsent(snapshot.id, snapshot.data);
         }
       }
@@ -185,15 +203,35 @@ mixin QueryExecutor implements DatabaseAdapter {
       );
     }
 
+    if (constraint is InList && constraint.value.isEmpty) {
+      throw ArgumentError(
+        'InList cannot be evaluated on an empty array. '
+        'InList(${constraint.key}, [])',
+      );
+    }
+
+    if (constraint is InList && constraint.value.length >= 10) {
+      /// cannot be applied to firebase. Evaluated after results are in
+      return dbQuery;
+    }
+
     if (constraint is InList) {
-      return dbQuery.where(constraint.key, whereIn: constraint.value as List);
+      return dbQuery.where(constraint.key, whereIn: constraint.value);
+    }
+
+    if (constraint is NotInList && constraint.value.isEmpty) {
+      /// There can never be something in an empty array.
+      /// Therefore will always be true and we can skip evaluating it
+      return dbQuery;
+    }
+
+    if (constraint is NotInList && constraint.value.length >= 10) {
+      /// cannot be applied to firebase. Evaluated after results are in
+      return dbQuery;
     }
 
     if (constraint is NotInList) {
-      return dbQuery.where(
-        constraint.key,
-        whereNotIn: constraint.value as List,
-      );
+      return dbQuery.where(constraint.key, whereNotIn: constraint.value);
     }
 
     if (constraint is Contains) {

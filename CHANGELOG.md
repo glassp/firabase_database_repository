@@ -1,4 +1,8 @@
 # CHANGELOG
+# 1.0.6
+    - **BUG**
+        - InList and NotInList are now handled after the query did run it they exceeded the limit firebase can handle
+
 # 1.0.5
     - **BUG**
         - remove json typedef as its exported from database_repository now
